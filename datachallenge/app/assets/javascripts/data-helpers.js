@@ -3,7 +3,7 @@ var baseURL = "https://data.cityofchicago.org/resource/6zsd-86xi.json"
 var basicQuery = encodeURI("?$select=ward,COUNT(ward)&$group=ward&limit=10")
 var appToken = "&$$app_token="+CHIAPPKEY
 
-$(document).ready() {
+$(document).ready(function(){
 	//test click on dead link to get top ten crime wards
 	$("a").on("click", function(e){
 		e.preventDefault()
@@ -20,4 +20,4 @@ $(document).ready() {
 			table.appendTo("#table-container")
 		})
 	})
-}
+})
