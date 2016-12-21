@@ -13,3 +13,33 @@
  *= require_tree .
  *= require_self
  */
+h1 {
+	font-family: 'Playfair Display', serif;
+	font-size: 52px;
+	text-align: center;
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    text-align: center;
+}
+
+body {
+	font-family: 'Open Sans', sans-serif;
+    line-height: 1.5;
+}
+
+#errors {
+    color: tomato;
+}
+
+#page-wrapper {
+     width: 900px;
+     margin: 0 auto;
+}
+
+#map {
+	float: right;
+	height: 100%;
+}
