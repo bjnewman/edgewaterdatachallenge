@@ -8,7 +8,8 @@ $(document).ready(function(){
 	$("a").on("click", function(e){
 		e.preventDefault()
 		console.log(baseURL+basicQuery+appToken)
-		$.getJSON( baseURL+basicQuery+appToken, function (data) {
+		//turn data into tables
+		$.getJSON( baseURL+basicQuery+appToken, function(data) {
 			// console.log(data)
 			var table = "<table> <tr> <th> Number of Crimes </th> <th> Community Area </th> </tr>"
 			var tableItems = []

@@ -40,6 +40,6 @@ body {
 }
 
 #map {
-	float: right;
-	height: 100%;
+	width: 600px;
+	height: 400px;
 }
