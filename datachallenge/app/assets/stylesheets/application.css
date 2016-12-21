@@ -38,3 +38,8 @@ body {
      width: 900px;
      margin: 0 auto;
 }
+
+#map {
+	float: right;
+	height: 100%;
+}
