@@ -9,7 +9,7 @@ $(document).ready(function(){
 		e.preventDefault()
 		console.log(baseURL+basicQuery+appToken)
 		$.getJSON( baseURL+basicQuery+appToken, function (data) {
-			console.log(data)
+			// console.log(data)
 			var table = "<table> <tr> <th> Number of Crimes </th> <th> Community Area </th> </tr>"
 			var tableItems = []
 			// turn each community_area with count into table row
