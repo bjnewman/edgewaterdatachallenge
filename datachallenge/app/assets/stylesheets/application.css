@@ -86,3 +86,10 @@ body {
 	width: 600px;
 	height: 400px;
 }
+@media screen and (max-width: 450px) {
+        #map {
+          width: 95%;
+            margin: auto;
+                height: 300px;
+        }
+    }
