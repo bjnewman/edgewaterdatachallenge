@@ -3,14 +3,16 @@ var communityAreaArray = ["placeholder", "Rogers Park", "West Ridge", "Uptown", 
 "Near North Side", "Edison Park", "Norwood Park", "Jefferson Park", "Forest Glen", "North Park", "Albany Park", "Portage Park", 
 "Irving Park", "Dunning", "Montclare", "Belmont Cragin", "Hermosa", "Avondale", "Logan Square", "Humboldt Park", "West Town", 
 "Austin", "West Garfield Park", "East Garfield Park", "Near West Side", "North Lawndale", "South Lawndale", "Lower West Side", "Loop", "Near South Side",
-"Armour Square", "Douglas", "Oakland", "Fuller Park", "Grand Boulevard", "Kenwood"]
+"Armour Square", "Douglas", "Oakland", "Fuller Park", "Grand Boulevard", "Kenwood", "Washington Park", "Hyde Park", "Woodlawn", "South Shore", "Chatham", 
+"Avalon Park", "South Chicago", "Burnside", "Calumet Heights", "Roseland", "Pullman", "South Deering", "East Side", "West Pullman", "Riverdale", "Hegewisch",
+"Garfield Ridge", "Archer Heights", "Brighton Park"]
 
 var baseURL = "https://data.cityofchicago.org/resource/6zsd-86xi.json"
 var wardQuery = encodeURI("?$select=ward,COUNT(ward)&$group=ward&$limit=10&$order=COUNT(ward) DESC ")
 var appToken = "&$$app_token=XTzcaicIeaM3s1GDqbUAaUVS5"
 var commCrimeQuery = encodeURI("?$select=primary_type,COUNT(primary_type)&$group=primary_type&$limit=10&$order=COUNT(primary_type) DESC ")
 var safeHoodsQuery = encodeURI("?$select=community_area,COUNT(community_area)&$group=community_area&$limit=10&$order=COUNT(community_area) DESC ")
-
+var arrestYearlyQuery = encodeURI("?$select=year,count(*),sum(case(arrest=true, 1, true, 0))&$group=year&$order=year DESC ")
 
 $(document).ready(function(){
 	//test click on dead link to get top ten crime wards
@@ -50,6 +52,23 @@ $(document).ready(function(){
 		})
 	})
 
+	$(".dropdown").on("click", "#annualArrest", function(e){
+		e.preventDefault()
+		console.log("blocked")
+		$.getJSON( baseURL+arrestYearlyQuery+appToken, function(data) {
+			console.log(data)
+			var yearlyTable = "<table> <tr> <th> Year </th> <th> Percent of crimes with an arrest </th> </tr>"
+			var yearlyTableItems = []
+			// turn each ward with count into table row
+			for (var i = 0; i < data.length; i++) {
+				yearlyTableItems.push("<tr><td>"+data[i].year+"</td> <td>"+parseFloat(100*(data[i].sum_case_arrest_TRUE_1_TRUE_0/data[i].count)).toFixed(2) +"%</td></tr>")
+			}
+
+			var yearlyTableItemsString = yearlyTableItems.join("")
+			yearlyTable += yearlyTableItemsString+"</table>"
+			$("#table-container").html(yearlyTable)
+		})
+	})
 	$(".dropdown").on("click", "#commonCrimes", function(e){
 		e.preventDefault()
 		console.log("blocked")
