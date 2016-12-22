@@ -1,24 +1,6 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a project that originated from a coding challenge to analyze the Chicago Crime dataset at https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2
 
-Things you may want to cover:
+I started with the idea that mapping the latest crimes would be an interesting visualization. Currently this maps the latest 1000 crimes but I would like to give users the option to display different numbers of crimes or to select to map reported crimes based on a date range.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

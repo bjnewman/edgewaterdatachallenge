@@ -1,0 +1,27 @@
+<h2>Map of 1000 most recent crimes in Chicago</h2>
+<div id='map'></div>
+
+<script type="text/javascript">
+//intialize map
+function initMap() {
+	var baseURL = "https://data.cityofchicago.org/resource/6zsd-86xi.json"
+	var mapQuery = encodeURI("?$select=primary_type,latitude,longitude&$order=date DESC &$limit=500")
+  var gMap = new google.maps.Map(document.getElementById('map'), {
+    zoom: 9,
+    center: {lat: 41.8781, lng: -87.6298}
+  })
+  // get crime data with lat long
+  $.getJSON( baseURL+mapQuery, function (data){
+  	//for each row returned create marker on gMap
+  for (var i = 0; i < data.length; i++) {
+ 		var marker = new google.maps.Marker({
+ 			position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
+ 			map: gMap,
+ 			title: data[i].primary_type
+ 		})
+ 	}
+ })
+}
+</script>
+<script async defer src= "https://maps.googleapis.com/maps/api/js?key=<%= ENV["google_map_key"] %>&callback=initMap"
+type="text/javascript"></script>

@@ -1,4 +1,5 @@
 <h1>Chicago Crime data</h1>
+<p>Welcome to my crime data toolset! This site is intended as an intoductory effort toward exploring the Chicago crime data set made available <a href="https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2">here</a> by the city of Chicago. The data is pulled from official police records and updated frequently. If you click through the link, you will see that the raw dataset contains an intimidating amount of specifics with each record. The city does a tremendous job offering different ways to filter and visualize their data, so this humble page limits itself toward exploring a few easy to understand slices. Don't forget to click on the link on the <a href="/home/map"><b>MAP</b></a> get another view of the most recent records available. Thanks and enjoy!</p>
 
 <a id ="topTenWards" href="#">See the top ten most dangerous Chicago Wards</a><br>
 
@@ -24,30 +25,95 @@
 <div id="crime-container"></div>
 
 
-<h2>Map of 1000 most recent crimes in Chicago</h2>
-<div id='map'></div>
+<script type="text/javascript">
+// make an API call to Chicago crime data 
+var communityAreaArray = ["placeholder", "Rogers Park", "West Ridge", "Uptown", "Lincoln Square", "North Center", "Lake View", "Lincoln Park", 
+"Near North Side", "Edison Park", "Norwood Park", "Jefferson Park", "Forest Glen", "North Park", "Albany Park", "Portage Park", 
+"Irving Park", "Dunning", "Montclare", "Belmont Cragin", "Hermosa", "Avondale", "Logan Square", "Humboldt Park", "West Town", 
+"Austin", "West Garfield Park", "East Garfield Park", "Near West Side", "North Lawndale", "South Lawndale", "Lower West Side", "Loop", "Near South Side",
+"Armour Square", "Douglas", "Oakland", "Fuller Park", "Grand Boulevard", "Kenwood", "Washington Park", "Hyde Park", "Woodlawn", "South Shore", "Chatham", 
+"Avalon Park", "South Chicago", "Burnside", "Calumet Heights", "Roseland", "Pullman", "South Deering", "East Side", "West Pullman", "Riverdale", "Hegewisch",
+"Garfield Ridge", "Archer Heights", "Brighton Park"]
 
-// <script type="text/javascript">
-// //intialize map
-// function initMap() {
-// 	var baseURL = "https://data.cityofchicago.org/resource/6zsd-86xi.json"
-// 	var mapQuery = encodeURI("?$select=primary_type,latitude,longitude&$order=date DESC &$limit=500")
-//   var gMap = new google.maps.Map(document.getElementById('map'), {
-//     zoom: 9,
-//     center: {lat: 41.8781, lng: -87.6298}
-//   })
-//   // get crime data with lat long
-//   $.getJSON( baseURL+mapQuery, function (data){
-//   	//for each row returned create marker on gMap
-//   for (var i = 0; i < data.length; i++) {
-//  		var marker = new google.maps.Marker({
-//  			position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
-//  			map: gMap,
-//  			title: data[i].primary_type
-//  		})
-//  	}
-//  })
-// }
-// </script>
-<!-- // <script async defer src= "https://maps.googleapis.com/maps/api/js?key=<%= ENV["google_map_key"] %>&callback=initMap"
-//   type="text/javascript"></script> -->
+var baseURL = "https://data.cityofchicago.org/resource/6zsd-86xi.json"
+var wardQuery = encodeURI("?$select=ward,COUNT(ward)&$group=ward&$limit=10&$order=COUNT(ward) DESC ")
+var appToken = "&$$app_token=XTzcaicIeaM3s1GDqbUAaUVS5"
+var commCrimeQuery = encodeURI("?$select=primary_type,COUNT(primary_type)&$group=primary_type&$limit=10&$order=COUNT(primary_type) DESC ")
+var safeHoodsQuery = encodeURI("?$select=community_area,COUNT(community_area)&$group=community_area&$limit=10&$order=COUNT(community_area) DESC ")
+var arrestYearlyQuery = encodeURI("?$select=year,count(*),sum(case(arrest=true, 1, true, 0))&$group=year&$order=year DESC ")
+
+$(document).ready(function(){
+	//test click on dead link to get top ten crime wards
+	$("#topTenWards").on("click", function(e){
+		e.preventDefault()
+		console.log(baseURL+wardQuery+appToken)
+		//turn data into tables
+		$.getJSON( baseURL+wardQuery+appToken, function(data) {
+			// console.log(data)
+			var wardTable = "<table> <tr> <th> Number of Crimes </th> <th> Ward Number </th> </tr>"
+			var wardTableItems = []
+			// turn each ward with count into table row
+			for (var i = 0; i < data.length; i++) {
+				wardTableItems.push("<tr><td>"+data[i].COUNT_ward+"</td> <td>"+data[i].ward+"</td></tr>")
+			}
+
+			var wardTableItemsString = wardTableItems.join("")
+			wardTable += wardTableItemsString+"</table>"
+			$("#table-container").html(wardTable)
+		})
+	})
+	$(".dropdown").on("click", "#safeHoods", function(e){
+		e.preventDefault()
+		console.log("blocked")
+		$.getJSON( baseURL+safeHoodsQuery+appToken, function(data) {
+			console.log(data)
+			var safeTable = "<table> <tr> <th> Neighborhood </th> <th> Crimes reported since 2001 </th> </tr>"
+			var safeTableItems = []
+			// turn each ward with count into table row
+			for (var i = 0; i < data.length; i++) {
+				safeTableItems.push("<tr><td>"+data[i].community_area+"</td> <td>"+data[i].COUNT_community_area+"</td></tr>")
+			}
+
+			var safeTableItemsString = safeTableItems.join("")
+			safeTable += safeTableItemsString+"</table>"
+			$("#table-container").html(safeTable)
+		})
+	})
+
+	$(".dropdown").on("click", "#annualArrest", function(e){
+		e.preventDefault()
+		console.log("blocked")
+		$.getJSON( baseURL+arrestYearlyQuery+appToken, function(data) {
+			console.log(data)
+			var yearlyTable = "<table> <tr> <th> Year </th> <th> Percent of crimes with an arrest </th> </tr>"
+			var yearlyTableItems = []
+			// turn each ward with count into table row
+			for (var i = 0; i < data.length; i++) {
+				yearlyTableItems.push("<tr><td>"+data[i].year+"</td> <td>"+parseFloat(100*(data[i].sum_case_arrest_TRUE_1_TRUE_0/data[i].count)).toFixed(2) +"%</td></tr>")
+			}
+
+			var yearlyTableItemsString = yearlyTableItems.join("")
+			yearlyTable += yearlyTableItemsString+"</table>"
+			$("#table-container").html(yearlyTable)
+		})
+	})
+	$(".dropdown").on("click", "#commonCrimes", function(e){
+		e.preventDefault()
+		console.log("blocked")
+		$.getJSON( baseURL+commCrimeQuery+appToken, function(data) {
+			console.log(data)
+			var commonTable = "<table> <tr> <th> Type of Crime </th> <th> Number reported since 2001 </th> </tr>"
+			var commonTableItems = []
+			// turn each ward with count into table row
+			for (var i = 0; i < data.length; i++) {
+				commonTableItems.push("<tr><td>"+data[i].primary_type+"</td> <td>"+data[i].COUNT_primary_type+"</td></tr>")
+			}
+
+			var commonTableItemsString = commonTableItems.join("")
+			commonTable += commonTableItemsString+"</table>"
+			$("#table-container").html(commonTable)
+		})
+	})
+})
+</script>
+
