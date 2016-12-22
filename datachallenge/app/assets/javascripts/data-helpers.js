@@ -1,26 +1,44 @@
 // make an API call to Chicago crime data 
 var baseURL = "https://data.cityofchicago.org/resource/6zsd-86xi.json"
-var basicQuery = encodeURI("?$select=community_area,COUNT(community_area)&$group=community_area&$limit=10&$order=COUNT(community_area) DESC ")
+var wardQuery = encodeURI("?$select=ward,COUNT(ward)&$group=ward&$limit=10&$order=COUNT(ward) DESC ")
 var appToken = "&$$app_token=XTzcaicIeaM3s1GDqbUAaUVS5"
+var commCrimeQuery = encodeURI("?$select=primary_type,COUNT(primary_type)&$group=primary_type&$limit=10&$order=COUNT(primary_type) DESC ")
 
 $(document).ready(function(){
-	//test click on dead link to get top ten crime community_areas
-	$("a").on("click", function(e){
+	//test click on dead link to get top ten crime wards
+	$("#topTenWards").on("click", function(e){
 		e.preventDefault()
-		console.log(baseURL+basicQuery+appToken)
+		console.log(baseURL+wardQuery+appToken)
 		//turn data into tables
-		$.getJSON( baseURL+basicQuery+appToken, function(data) {
+		$.getJSON( baseURL+wardQuery+appToken, function(data) {
 			// console.log(data)
-			var table = "<table> <tr> <th> Number of Crimes </th> <th> Community Area </th> </tr>"
-			var tableItems = []
-			// turn each community_area with count into table row
+			var wardTable = "<table> <tr> <th> Number of Crimes </th> <th> Ward Number </th> </tr>"
+			var wardTableItems = []
+			// turn each ward with count into table row
 			for (var i = 0; i < data.length; i++) {
-				tableItems.push("<tr><td>"+data[i].COUNT_community_area+"</td> <td>"+data[i].community_area+"</td></tr>")
+				wardTableItems.push("<tr><td>"+data[i].COUNT_ward+"</td> <td>"+data[i].ward+"</td></tr>")
 			}
 
-			tableItemsString = tableItems.join("")
-			table += tableItemsString+"</table>"
-			$("#table-container").html(table)
+			var wardTableItemsString = wardTableItems.join("")
+			wardTable += wardTableItemsString+"</table>"
+			$("#table-container").html(wardTable)
+		})
+	})
+	$(".dropdown").on("click", "#commonCrimes", function(e){
+		e.preventDefault()
+		console.log("blocked")
+		$.getJSON( baseURL+commCrimeQuery+appToken, function(data) {
+			console.log(data)
+			var commonTable = "<table> <tr> <th> Type of Crime </th> <th> Number reported since 2001 </th> </tr>"
+			var commonTableItems = []
+			// turn each ward with count into table row
+			for (var i = 0; i < data.length; i++) {
+				commonTableItems.push("<tr><td>"+data[i].primary_type+"</td> <td>"+data[i].COUNT_primary_type+"</td></tr>")
+			}
+
+			var commonTableItemsString = commonTableItems.join("")
+			commonTable += commonTableItemsString+"</table>"
+			$("#crime-container").html(commonTable)
 		})
 	})
 })
@@ -29,11 +47,11 @@ $(document).ready(function(){
 toggle between hiding and showing the dropdown content */
 function showDropdown() {
     document.getElementById("myDrop").classList.toggle("show");
-    //find option selected
-    
 }
 
-// Close the dropdown menu if the user clicks outside of it
+
+
+// // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
 

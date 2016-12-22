@@ -1,20 +1,27 @@
 <h1>Chicago Crime data</h1>
 
-<a href="#">Get top ten community areas with most crimes reported</a><br>
+<a id ="topTenWards" href="#">See the top ten most dangerous Chicago Wards</a><br>
 
 <div class="dropdown">
   <button onclick="showDropdown()" class="dropbtn">Learn more about:</button>
   <div id="myDrop" class="dropdown-content">
-    <a href="#">Top ten most common crimes reported in Chicago</a>
-    <a href="#">Safest neighborhoods</a>
-    <a href="#">Percent of crimes with an arrest (annually)</a>
-    <a href="#">Percent of crimes with an arrest (2016 monthly year to date)</a>
+    <a id="commonCrimes" href="#">Top ten most common crimes reported in Chicago</a>
+    <a id="safeHoods" href="#">Safest neighborhoods</a>
+    <a id="annualArrest"href="#">Percent of crimes with an arrest (annually)</a>
+    <a id="ytdArrest" href="#">Percent of crimes with an arrest (2016 monthly year to date)</a>
   </div>
 </div>
 
+<!-- <p>Please select an option to learn more about:</p>
+<select id="dropdown">
+<option value="commonCrimes">Top ten most common crimes reported in Chicago</option>
+<option value="safeHoods">Safest neighborhoods</option>
+</select>
+ -->
 
 <div id="table-container">
 </div>
+<div id="crime-container"></div>
 
 
 <h2>Map of 1000 most recent crimes in Chicago</h2>
@@ -42,5 +49,5 @@
 //  })
 // }
 // </script>
-// <script async defer src= "https://maps.googleapis.com/maps/api/js?key=<%= ENV["google_map_key"] %>&callback=initMap"
-//   type="text/javascript"></script>
+<!-- // <script async defer src= "https://maps.googleapis.com/maps/api/js?key=<%= ENV["google_map_key"] %>&callback=initMap"
+//   type="text/javascript"></script> -->
