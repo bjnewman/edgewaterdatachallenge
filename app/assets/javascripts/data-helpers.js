@@ -1,8 +1,12 @@
 // make an API call to Chicago crime data 
+var communityAreaArray = ["Rogers Park", "West Ridge", "Uptown", "Lincoln Square", "North Center", "Lake View", "Lincoln Park", "Near North Side", "Edison Park", "Norwood Park", "Jefferson Park", "Forest Glen", "North Park", "Albany Park", "Portage Park", "Irving Park", "Dunning", "Montclare", "Belmont Cragin", "Hermosa", "Avondale"]
+
 var baseURL = "https://data.cityofchicago.org/resource/6zsd-86xi.json"
 var wardQuery = encodeURI("?$select=ward,COUNT(ward)&$group=ward&$limit=10&$order=COUNT(ward) DESC ")
 var appToken = "&$$app_token=XTzcaicIeaM3s1GDqbUAaUVS5"
 var commCrimeQuery = encodeURI("?$select=primary_type,COUNT(primary_type)&$group=primary_type&$limit=10&$order=COUNT(primary_type) DESC ")
+var safestHoodsQuery = encodeURI("?$select=")
+
 
 $(document).ready(function(){
 	//test click on dead link to get top ten crime wards
@@ -38,7 +42,7 @@ $(document).ready(function(){
 
 			var commonTableItemsString = commonTableItems.join("")
 			commonTable += commonTableItemsString+"</table>"
-			$("#crime-container").html(commonTable)
+			$("#table-container").html(commonTable)
 		})
 	})
 })
