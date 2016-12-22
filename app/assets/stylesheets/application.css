@@ -110,4 +110,15 @@ body {
 .nav_link {
     display: inline-block;
     padding-right: 50px;
+    background-color: slategray;
+    border: 0;
+    color:  white;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+
+.nav_link:hover {
+  background-color: slategray;
+  color: white;
+  text-decoration: none;
 }
