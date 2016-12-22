@@ -13,6 +13,10 @@
  *= require_tree .
  *= require_self
  */
+html{
+    background: lightblue;
+}
+
 h1 {
 	font-family: 'Playfair Display', serif;
 	font-size: 52px;
@@ -22,7 +26,7 @@ h1 {
 h2 {
     font-family: 'Playfair Display', serif;
     font-size: 36px;
-    text-align: center;
+    text-align: left;
 }
 
 body {
@@ -39,7 +43,6 @@ body {
     cursor: pointer;
 }
 
-/* Dropdown button on hover & focus */
 .dropbtn:hover, .dropbtn:focus {
     background-color: #3e8e41;
 }
@@ -50,7 +53,6 @@ body {
     display: inline-block;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -70,7 +72,7 @@ body {
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {background-color: #f1f1f1}
 
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+/* Show the dropdown menu */
 .show {display:block;}
 
 #errors {
@@ -93,3 +95,19 @@ body {
                 height: 300px;
         }
     }
+
+
+/*NAV BAR CSS*/
+
+#navbar {
+  text-align: center;
+  margin-left: 0;
+  margin-right: 0;
+  font-size: 150%;
+  background: slategray;
+}
+
+.nav_link {
+    display: inline-block;
+    padding-right: 50px;
+}
