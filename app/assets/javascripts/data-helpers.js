@@ -1,11 +1,15 @@
 // make an API call to Chicago crime data 
-var communityAreaArray = ["Rogers Park", "West Ridge", "Uptown", "Lincoln Square", "North Center", "Lake View", "Lincoln Park", "Near North Side", "Edison Park", "Norwood Park", "Jefferson Park", "Forest Glen", "North Park", "Albany Park", "Portage Park", "Irving Park", "Dunning", "Montclare", "Belmont Cragin", "Hermosa", "Avondale"]
+var communityAreaArray = ["placeholder", "Rogers Park", "West Ridge", "Uptown", "Lincoln Square", "North Center", "Lake View", "Lincoln Park", 
+"Near North Side", "Edison Park", "Norwood Park", "Jefferson Park", "Forest Glen", "North Park", "Albany Park", "Portage Park", 
+"Irving Park", "Dunning", "Montclare", "Belmont Cragin", "Hermosa", "Avondale", "Logan Square", "Humboldt Park", "West Town", 
+"Austin", "West Garfield Park", "East Garfield Park", "Near West Side", "North Lawndale", "South Lawndale", "Lower West Side", "Loop", "Near South Side",
+"Armour Square", "Douglas", "Oakland", "Fuller Park", "Grand Boulevard", "Kenwood"]
 
 var baseURL = "https://data.cityofchicago.org/resource/6zsd-86xi.json"
 var wardQuery = encodeURI("?$select=ward,COUNT(ward)&$group=ward&$limit=10&$order=COUNT(ward) DESC ")
 var appToken = "&$$app_token=XTzcaicIeaM3s1GDqbUAaUVS5"
 var commCrimeQuery = encodeURI("?$select=primary_type,COUNT(primary_type)&$group=primary_type&$limit=10&$order=COUNT(primary_type) DESC ")
-var safestHoodsQuery = encodeURI("?$select=")
+var safeHoodsQuery = encodeURI("?$select=community_area,COUNT(community_area)&$group=community_area&$limit=10&$order=COUNT(community_area) DESC ")
 
 
 $(document).ready(function(){
@@ -28,6 +32,24 @@ $(document).ready(function(){
 			$("#table-container").html(wardTable)
 		})
 	})
+	$(".dropdown").on("click", "#safeHoods", function(e){
+		e.preventDefault()
+		console.log("blocked")
+		$.getJSON( baseURL+safeHoodsQuery+appToken, function(data) {
+			console.log(data)
+			var safeTable = "<table> <tr> <th> Neighborhood </th> <th> Crimes reported since 2001 </th> </tr>"
+			var safeTableItems = []
+			// turn each ward with count into table row
+			for (var i = 0; i < data.length; i++) {
+				safeTableItems.push("<tr><td>"+data[i].community_area+"</td> <td>"+data[i].COUNT_community_area+"</td></tr>")
+			}
+
+			var safeTableItemsString = safeTableItems.join("")
+			safeTable += safeTableItemsString+"</table>"
+			$("#table-container").html(safeTable)
+		})
+	})
+
 	$(".dropdown").on("click", "#commonCrimes", function(e){
 		e.preventDefault()
 		console.log("blocked")
