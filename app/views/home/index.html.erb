@@ -94,7 +94,8 @@ $(document).ready(function(){
 			.text(function(d) { return d; });
 
 			var safeTableItemsString = safeTableItems.join("")
-			safeTable += safeTableItemsString+"</table>"
+			safeTable += safeTableItemsString+"</table> <br>
+			<p> Community areas converted to neighborhood names based on "
 			$("#table-container").html(safeTable)
 		})
 	})
