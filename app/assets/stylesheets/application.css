@@ -35,6 +35,10 @@ body {
 }
 
 /* chart style */
+/*.chart {
+  display: inline-block;
+  float: right;
+}*/
 .chart div {
   font: 10px sans-serif;
   background-color: steelblue;
