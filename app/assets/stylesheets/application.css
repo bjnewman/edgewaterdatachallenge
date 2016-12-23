@@ -31,14 +31,18 @@ h2 {
 
 body {
 	font-family: 'Open Sans', sans-serif;
-    line-height: 1.5;
+}
+p {
+  line-height: 1.5
 }
 
 /* chart style */
-/*.chart {
-  display: inline-block;
-  float: right;
-}*/
+.chart {
+  margin-top: 25px;
+  display: inline;
+  width: 40%;
+  float: left;
+}
 .chart div {
   font: 10px sans-serif;
   background-color: steelblue;
@@ -51,6 +55,7 @@ body {
 /* dropdown menu */
 
 .dropbtn {
+    display: block;
     background-color: #4CAF50;
     color: white;
     padding: 16px;
@@ -98,6 +103,14 @@ body {
 #page-wrapper {
      width: 900px;
      margin: 0 auto;
+}
+
+#table-container {
+  float: left;
+  width: 40%;
+  border-right: 0;
+  margin-right: 0;
+  display: inline-block;
 }
 
 #map {
