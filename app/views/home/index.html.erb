@@ -94,8 +94,7 @@ $(document).ready(function(){
 			.text(function(d) { return d; });
 
 			var safeTableItemsString = safeTableItems.join("")
-			safeTable += safeTableItemsString+"</table> <br>
-			<p> Community areas converted to neighborhood names based on city of Chicago map <a href='https://www.cityofchicago.org/content/dam/city/depts/doit/general/GIS/Chicago_Maps/Citywide_Maps/Community_Areas_W_Numbers.pdf'>here</a> </p>"
+			safeTable += safeTableItemsString+"</table> <br> <p> Community areas converted to neighborhood names based on city of Chicago map <a href='https://www.cityofchicago.org/content/dam/city/depts/doit/general/GIS/Chicago_Maps/Citywide_Maps/Community_Areas_W_Numbers.pdf'>here</a> </p>"
 			$("#table-container").html(safeTable)
 		})
 	})
