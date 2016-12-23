@@ -7,3 +7,5 @@ I started with the idea that mapping the latest crimes would be an interesting v
 Next I focused on a few simple data cuts that highlight some easy to understand data. I explain the shortcomings of the limited analysis in the about section.
 
 Authored by Ben Newman
+
+See the code in action [live](https://edgewaternewman.herokuapp.com "on heroku" )
