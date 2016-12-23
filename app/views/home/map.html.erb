@@ -1,15 +1,53 @@
-<h2>Map of 1000 most recent crimes in Chicago</h2>
+<h2>Map of 100 most recent crimes in Chicago</h2>
 <div id='map'></div>
+<br><br>
+<!-- <p>Select a different date range to view the crimes in that time</p>
+ 
+<div id="slider"></div> -->
+<!-- <button type = 'button' id = "submitButton">Submit</button> -->
+
 
 <script type="text/javascript">
 //intialize map
 function initMap() {
+  // create slider with jquerySlider plugin
+  var dateMax = new Date();
+  var dateMin = new Date(2001, 1, 1);
+  $("#slider").dateRangeSlider({
+      bounds: {
+          min: dateMin,
+          max: dateMax
+      },
+      defaultValues: {
+          min: new Date(2016, 12, 1),
+          max: dateMax
+      }
+  });
+  //structure api call based on defaults and with option to submit for new map
 	var baseURL = "https://data.cityofchicago.org/resource/6zsd-86xi.json"
-	var mapQuery = encodeURI("?$select=primary_type,latitude,longitude&$order=date DESC &$limit=500")
+	var mapQuery = encodeURI("?$select=primary_type,latitude,longitude&$order=date DESC &$limit=100")
   var gMap = new google.maps.Map(document.getElementById('map'), {
-    zoom: 9,
+    zoom: 10,
     center: {lat: 41.8781, lng: -87.6298}
   })
+
+  // on submit take max and min from slider to create new markers
+  $('#submitButton').on('click', function() {
+      var inputMax = $("#slider").dateRangeSlider("max");
+      var inputMin = $("#slider").dateRangeSlider("min");
+      // console.log(inputMax.toString());
+      // console.log(inputMin.toString());
+      inputMax = moment(inputMax).add(1, 'days').format("YYYY-MM-DD");
+      inputMin = moment(inputMin).subtract(1, 'days').format("YYYY-MM-DD");
+      // console.log(inputMax);
+      // console.log(inputMin);
+      var apiCall = baseURL + encodeURI('?$select=primary_type,latitude,longitude&$where=date>\'' + inputMin +
+          '\' AND date<\'' + inputMax + '\'');
+      console.log(apiCall);
+      $.getJSON(apiCall, function(data) {
+          console.log(data);
+      });
+
   // get crime data with lat long
   $.getJSON( baseURL+mapQuery, function (data){
   	//for each row returned create marker on gMap
