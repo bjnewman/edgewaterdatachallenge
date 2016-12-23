@@ -1,11 +1,12 @@
 <h1>Chicago Crime data</h1>
 <p>Welcome to my crime data toolset! This site is intended as an intoductory effort toward exploring the Chicago crime data set made available <a href="https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2">here</a> by the city of Chicago. The data is pulled from official police records and updated frequently. If you click through the link, you will see that the raw dataset contains an intimidating amount of specifics with each record. The city does a tremendous job offering different ways to filter and visualize their data, so this humble page limits itself toward exploring a few easy to understand slices. Don't forget to click on the link on the <a href="/home/map"><b>MAP</b></a> get another view of the most recent records available. Thanks and enjoy!</p>
 
-<a id ="topTenWards" href="#">See the top ten most dangerous Chicago Wards</a><br>
+<br>
 
 <div class="dropdown">
   <button onclick="showDropdown()" class="dropbtn">Learn more about:</button>
   <div id="myDrop" class="dropdown-content">
+  	<a id ="topTenWards" href="#">See the top ten most dangerous Chicago Wards</a>
     <a id="commonCrimes" href="#">Top ten most common crimes reported in Chicago</a>
     <a id="safeHoods" href="#">Safest neighborhoods</a>
     <a id="annualArrest"href="#">Percent of crimes with an arrest (annually)</a>
@@ -21,7 +22,7 @@
 
 <div id="table-container">
 </div>
-<div id="crime-container"></div>
+<div class="chart"></div>
 
 
 <script type="text/javascript">
@@ -52,10 +53,18 @@ $(document).ready(function(){
 			// console.log(data)
 			var wardTable = "<table> <tr> <th> Ward Number </th> <th>  Number of Crimes</th> </tr>"
 			var wardTableItems = []
+			var wardChartData = []
 			// turn each ward with count into table row
 			for (var i = 0; i < data.length; i++) {
 				wardTableItems.push("<tr><td>"+data[i].ward+"</td> <td>"+data[i].COUNT_ward+"</td></tr>")
+				wardChartData.push(data[i].COUNT_ward)
 			}
+			d3.select(".chart")
+			.selectAll("div")
+				.data(wardChartData)
+			.enter().append("div")
+			.style("width", function(d) { return d / 1000 + "px"; })
+			.text(function(d) { return d; });
 
 			var wardTableItemsString = wardTableItems.join("")
 			wardTable += wardTableItemsString+"</table>"
@@ -69,10 +78,18 @@ $(document).ready(function(){
 			console.log(data)
 			var safeTable = "<table> <tr> <th> Neighborhood </th> <th> Crimes reported since 2001 </th> </tr>"
 			var safeTableItems = []
+			var safeChartData = []
 			//  lookup neightborhood name in array
 			for (var i = 2; i < data.length; i++) {
 				safeTableItems.push("<tr><td>"+communityAreaArray[data[i].community_area]+"</td> <td>"+data[i].COUNT_community_area+"</td></tr>")
+				safeChartData.push(data[i].COUNT_community_area)
 			}
+			d3.select(".chart")
+			.selectAll("div")
+				.data(safeChartData)
+			.enter().append("div")
+			.style("width", function(d) { return d / 100 + "px"; })
+			.text(function(d) { return d; });
 
 			var safeTableItemsString = safeTableItems.join("")
 			safeTable += safeTableItemsString+"</table>"
@@ -84,13 +101,22 @@ $(document).ready(function(){
 		e.preventDefault()
 		console.log("blocked")
 		$.getJSON( baseURL+arrestYearlyQuery+appToken, function(data) {
-			console.log(data)
+			// console.log(data)
 			var yearlyTable = "<table> <tr> <th> Year </th> <th> Percent of crimes with an arrest </th> </tr>"
 			var yearlyTableItems = []
+			var yearlyChartData = []
 			// turn each ward with count into table row
 			for (var i = 0; i < data.length; i++) {
 				yearlyTableItems.push("<tr><td>"+data[i].year+"</td> <td>"+parseFloat(100*(data[i].sum_case_arrest_TRUE_1_TRUE_0/data[i].count)).toFixed(2) +"%</td></tr>")
+				yearlyChartData.push(parseFloat(100*(data[i].sum_case_arrest_TRUE_1_TRUE_0/data[i].count)).toFixed(2))
 			}
+			d3.select(".chart")
+			.selectAll("div")
+				.data(yearlyChartData)
+			.enter().append("div")
+			.style("width", function(d) { return d * 3 + "px"; })
+			.text(function(d) { return d; });
+
 
 			var yearlyTableItemsString = yearlyTableItems.join("")
 			yearlyTable += yearlyTableItemsString+"</table>"
@@ -101,13 +127,22 @@ $(document).ready(function(){
 		e.preventDefault()
 		console.log("blocked")
 		$.getJSON( baseURL+commCrimeQuery+appToken, function(data) {
-			console.log(data)
+			// console.log(data)
 			var commonTable = "<table> <tr> <th> Type of Crime </th> <th> Number reported since 2001 </th> </tr>"
 			var commonTableItems = []
+			var commonChartData = []
 			// turn each ward with count into table row
 			for (var i = 0; i < data.length; i++) {
 				commonTableItems.push("<tr><td>"+data[i].primary_type+"</td> <td>"+data[i].COUNT_primary_type+"</td></tr>")
+				commonChartData.push(data[i].COUNT_primary_type)
 			}
+
+			d3.select(".chart")
+			.selectAll("div")
+				.data(commonChartData)
+			.enter().append("div")
+			.style("width", function(d) { return d / 5000 + "px"; })
+			.text(function(d) { return d; });
 
 			var commonTableItemsString = commonTableItems.join("")
 			commonTable += commonTableItemsString+"</table>"

@@ -34,6 +34,22 @@ body {
     line-height: 1.5;
 }
 
+/* chart style */
+/*.chart {
+  display: inline-block;
+  float: right;
+}*/
+.chart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+
+/* dropdown menu */
+
 .dropbtn {
     background-color: #4CAF50;
     color: white;
